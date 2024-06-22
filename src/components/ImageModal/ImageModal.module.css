@@ -1,0 +1,13 @@
+.biggerImg {
+    display: block;
+    width: 1000px;
+    height: 700px;
+    object-fit: cover;
+}
+
+.modalItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
