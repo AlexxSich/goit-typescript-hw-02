@@ -12,20 +12,58 @@ import Loader from "../Loader/Loader";
 import css from "./App.module.css";
 import "react-toastify/dist/ReactToastify.css";
 
+export interface Image {
+  id: number;
+  urls: { small: string; regular: string };
+  description: string;
+  likes: number;
+  user: { name: string };
+}
+
+// interface MyFetchedImages {
+//   results?: Image[];
+//   total?: number;
+//   total_pages?: number;
+// }
+
 export default function App() {
-  const notify = () => toast.error("Try to put something in the input field");
+  const notify = (): void => {
+    toast.error("Try to put something in the input field");
+  };
+  const [images, setImages] = useState<Image[]>([]);
 
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const [totalPages, setTotalPages] = useState(1);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImg, setSelectedImg] = useState("");
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-  function openModal(alt, urlReg, likes, author) {
+  interface SelectedImg {
+    alt: string;
+    urlReg: string;
+    likes: number;
+    author: string;
+  }
+
+  const selectedImgInitialValue = {
+    alt: "",
+    urlReg: "",
+    likes: 0,
+    author: "",
+  };
+
+  const [selectedImg, setSelectedImg] = useState<SelectedImg>(
+    selectedImgInitialValue
+  );
+
+  function openModal(
+    alt: string,
+    urlReg: string,
+    likes: number,
+    author: string
+  ) {
     setModalIsOpen(true);
     setSelectedImg({ alt, urlReg, likes, author });
   }
@@ -44,7 +82,10 @@ export default function App() {
         setIsLoading(true);
         setIsError(false);
         const fetchedImages = await getImages(searchQuery, page);
-        setImages((prevImg) => [...prevImg, ...fetchedImages.results]);
+
+        if (fetchedImages.results) {
+          setImages((prevImg) => [...prevImg, ...fetchedImages.results]);
+        }
         setTotalPages(fetchedImages.total_pages);
       } catch (error) {
         setIsError(true);
@@ -55,7 +96,7 @@ export default function App() {
     fetchImg();
   }, [searchQuery, page]);
 
-  const handleSearch = async (searchedImg) => {
+  const handleSearch = async (searchedImg: string) => {
     setSearchQuery(searchedImg);
     setPage(1);
     setImages([]);

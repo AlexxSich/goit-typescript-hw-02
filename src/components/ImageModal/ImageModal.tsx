@@ -2,11 +2,17 @@ import ReactModal from "react-modal";
 
 import css from "./ImageModal.module.css";
 
+type ImageType = {
+  openModal: boolean;
+  closeModal: () => void;
+  selectedImg: { alt: string; urlReg: string; likes: number; author: string };
+};
+
 export default function ImageModal({
   openModal,
   closeModal,
   selectedImg: { alt, urlReg, likes, author },
-}) {
+}: ImageType) {
   const customStyles = {
     content: {
       top: "50%",

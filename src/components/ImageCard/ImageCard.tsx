@@ -1,5 +1,19 @@
 import css from "./ImageCard.module.css";
 
+interface ImageCardProps {
+  urlSm: string;
+  urlReg: string;
+  openModal: (
+    alt: string,
+    urlReg: string,
+    likes: number,
+    author: string
+  ) => void;
+  alt: string;
+  likes: number;
+  author: string;
+}
+
 export default function ImageCard({
   urlSm,
   urlReg,
@@ -7,7 +21,7 @@ export default function ImageCard({
   alt,
   likes,
   author,
-}) {
+}: ImageCardProps) {
   return (
     <>
       <div>

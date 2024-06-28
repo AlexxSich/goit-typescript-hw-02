@@ -1,8 +1,13 @@
 import { Field, Form, Formik } from "formik";
 
+type Props = {
+  onSearch: (value: string) => void;
+  notify: () => void;
+};
+
 import css from "./SearchBar.module.css";
 
-export default function SearchBar({ onSearch, notify }) {
+export default function SearchBar({ onSearch, notify }: Props) {
   return (
     <Formik
       initialValues={{ query: "" }}

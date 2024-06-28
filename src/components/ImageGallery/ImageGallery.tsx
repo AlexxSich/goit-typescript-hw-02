@@ -1,11 +1,29 @@
 import css from "./ImageGallery.module.css";
 import ImageCard from "../ImageCard/ImageCard";
+import { FC } from "react";
 
-export default function ImageGallery({ items, openModal }) {
+interface Item {
+  id: number;
+  urls: { small: string; regular: string };
+  description: string;
+  likes: number;
+  user: { name: string };
+}
+
+interface ImageGalleryProps {
+  items: Item[];
+  openModal: (
+    alt: string,
+    urlReg: string,
+    likes: number,
+    author: string
+  ) => void;
+}
+
+const ImageGallery: FC<ImageGalleryProps> = ({ items, openModal }) => {
   return (
     <ul className={css.gallery}>
       {items.map((item) => {
-        console.log(item);
         return (
           <li className={css.galleryItem} key={item.id}>
             <ImageCard
@@ -21,4 +39,6 @@ export default function ImageGallery({ items, openModal }) {
       })}
     </ul>
   );
-}
+};
+
+export default ImageGallery;
